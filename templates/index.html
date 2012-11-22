@@ -27,10 +27,11 @@
         <a class="brand"> Stadtretter </a>
         <ul class="nav">
           <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i> Hinzufügen </a>
-          <li><a href="login" id="login"><i class="icon-user"></i>Anmelden</a>
+          <li><a href="#login" id="login"><i class="icon-user"></i>Anmelden</a>
+          <li><a href="javascript:$('#about').toggle()"><i class="icon-question-sign"></i>Über</a>
         </ul>
-        <form action="javascript:zoom($('#search').val())">
-          <input id="search" type="text" style="height: 100%; float: right; margin-top: 5px;"/>
+        <form action="javascript:zoom($('#search').val().replace(' ', '&'))">
+          <input id="search" type="text" style="height: 100%; float: right; margin-top: 5px;" value="Ort suchen..." onfocus="if ($(this).val() =='Ort suchen...'){$(this).val('')}" onblur="if ($(this).val() == '') { $(this).val('Ort suchen...')}"/>
           <span style="display: none"> <input type="submit" /></span>
         </form>
       </div>
@@ -59,6 +60,15 @@
         </div>
         <input type="submit" />
       </form>
+    </div>
+    <div id="about" style="display: none; position:absolute; right: 50px; left: 50px; background-color: white; border-radius: 10px; padding: 25px; box-shadow: 5px 5px 10px black">
+      <i class="icon-remove-sign" style="float: right; margin-bottom: 10px; cursor: pointer;" onclick="$('#about').toggle()"></i>
+      <h2> Stadtretter </h2>
+      <h3> Warum diese Seite? </h3>
+      <p> Jeden Tag passieren tausend kleine gute Taten. Nieman sieht sie, aber sie sind trotzdem da. Stadtretter soll allen die Möglichkeit
+          geben, diese guten Taten zu teilen. Hast du etwas gutes getan oder hat dir jemand etwas gutes getan? Trags ein. Zusammen können
+          wir zeigen, dass in Deutschland viel mehr gute Taten passieren, als wir es mitbekommen können. Lasst uns zusammen eine <i> map
+            of pure aweseome </i> bauen.
     </div>
   </body>
 </html>
