@@ -38,7 +38,7 @@
     <div id="map" style="position: absolute; top:40px; bottom:0; left:0; right:0;"></div>
     <div class="popup" style="display: none; position:absolute; right: 50px; background-color: white; border-radius: 10px; padding: 25px; box-shadow: 5px 5px 10px black">
       <i class="icon-remove-sign" style="float: right; margin-bottom: 10px; cursor: pointer;" onclick="closepopup()"></i>
-      <form action="/add" method="post">
+      <form action="/add" method="post" enctype="multipart/form-data">
         <table>
           <tr>
             <td> Name </td>
@@ -50,7 +50,7 @@
           </tr>
           <tr>
             <td> Bild </td>
-            <td> <input type="text" name="picture" /></td>
+            <td> <input type="file" name="picture" /></td>
           </tr>
         </table>
         <div style="display: none;">
