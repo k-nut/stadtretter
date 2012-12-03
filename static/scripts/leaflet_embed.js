@@ -84,3 +84,16 @@ function doit(){
   var box = map.getBounds();
   getMarkers(box["_southWest"]["lat"], box["_northEast"]["lat"], box["_southWest"]["lng"], box["_northEast"]["lng"]);
 }
+
+
+function get_user_position(){
+        if (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(position){
+                        coords = [position.coords.latitude, position.coords.longitude];
+                })
+        }
+        else {
+                coords = false;
+        }
+        return coords;
+}
