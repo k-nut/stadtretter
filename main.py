@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask, request, g, redirect, url_for, \
-        abort, render_template, flash, jsonify, json
+        abort, render_template, jsonify, json
 import urllib, urllib2
 import datetime
 from werkzeug import secure_filename
@@ -39,7 +39,6 @@ def add_entry():
     g.db.execute('insert into entries (pubdate, name, title, picture, lat, lon) values (?, ?, ?, ?, ?, ?)',
             [datetime.date.today(), request.form['name'], request.form['title'], filename, request.form['lat'], request.form['lon']])
     g.db.commit()
-    flash('New entry was successfully posted')
     return redirect(url_for('home'))
 
 @app.route("/getCoordinates/<query>")
@@ -50,7 +49,10 @@ def findaddress(query):
     nominatim = urllib2.urlopen(url + "?" + data)
     result = nominatim.read()
     best_match = json.loads(result)[0]
-    return jsonify(lat=best_match["lat"], lon=best_match["lon"]) 
+    if result != "[]": # if we get something from nominatim return it
+        return jsonify(lat=best_match["lat"], lon=best_match["lon"])
+    else: # if not we just return empty brackets
+        return jsonify()
 
 @app.before_request
 def before_request():
@@ -67,6 +69,6 @@ def connect_db():
 
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app.debug = True
     app.run()
