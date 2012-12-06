@@ -44,12 +44,13 @@ def add_entry():
 @app.route("/getCoordinates/<query>")
 def findaddress(query):
     ''' Call the osm nominatim server to get the coordinates for a query '''
+    query = unicode(query).encode("utf-8")
     url = "http://nominatim.openstreetmap.org/search/%s"% (query)
     data = urllib.urlencode({"format": "json"})
     nominatim = urllib2.urlopen(url + "?" + data)
     result = nominatim.read()
-    best_match = json.loads(result)[0]
     if result != "[]": # if we get something from nominatim return it
+        best_match = json.loads(result)[0]
         return jsonify(lat=best_match["lat"], lon=best_match["lon"])
     else: # if not we just return empty brackets
         return jsonify()

@@ -39,19 +39,18 @@ is_adding_marker = false;
 function add_new_marker(){
   if (!is_adding_marker){
     is_adding_marker = true;
-    new_marker = L.marker(map.getCenter(), {"icon": add_icon, "draggable":true});
-    new_marker.on('dragend', function(){
-      $("#lat-input").val(this.getLatLng()["lat"]);
-      $("#lng-input").val(this.getLatLng()["lng"]);
+    this_marker = L.marker(map.getCenter(), {"icon": add_icon, "draggable":true});
+    this_marker.on('dragend', function(){
+      $("#lat-input").val(this.getLatLng().lat);
+      $("#lng-input").val(this.getLatLng().lng);
     });
-    new_marker.addTo(map);
+    this_marker.addTo(map);
     $(".popup").toggle();
   }
   setTimeout(function(){
-    $("#lat-input").val(new_marker.getLatLng()["lat"]);
-    $("#lng-input").val(new_marker.getLatLng()["lng"]);
-  }
-  ,500
+    $("#lat-input").val(this_marker.getLatLng().lat);
+    $("#lng-input").val(this_marker.getLatLng().lng);
+  },500
   );
 }
 
@@ -63,8 +62,13 @@ function closepopup(){
 
 function zoom(query){
   $.getJSON("/getCoordinates/" + query, function(data){
-    map.panTo([data.lat, data.lon]);
-  })
+          if (data.lat){
+                  map.panTo([data.lat, data.lon]);
+          }
+          else {
+             $("#notfound").fadeIn(750, function(){$("#notfound").fadeOut(2000)}); 
+          }
+  });
 }
 
 function getMarkers(north, east, south, west){
@@ -77,12 +81,12 @@ function getMarkers(north, east, south, west){
         all_the_markers.push(now.id);
       }
     }
-  })
+  });
 }
 
 function doit(){
   var box = map.getBounds();
-  getMarkers(box["_southWest"]["lat"], box["_northEast"]["lat"], box["_southWest"]["lng"], box["_northEast"]["lng"]);
+  getMarkers(box._southWest.lat, box._northEast.lat, box._southWest.lng, box._northEast.lng);
 }
 
 
@@ -90,10 +94,10 @@ function get_user_position(){
         if (navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(function(position){
                         coords = [position.coords.latitude, position.coords.longitude];
-                })
+                });
         }
         else {
-                coords = false;
+               coords = false;
         }
         return coords;
 }
