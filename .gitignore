@@ -1,6 +1,7 @@
 *.swp
 *.cfg
 *~
+*.db
 
 *.py[cod]
 
