@@ -92,21 +92,6 @@ def findaddress(query):
     else: # if not we just return empty brackets
         return jsonify()
 
-@app.before_request
-def before_request():
-    g.db = connect_db()
-
-@app.teardown_request
-def teardown_request(exception):
-    g.db.close()
-
-
-
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
-
-
-
 if __name__ == "__main__":
     app.debug = False
     port = int(os.environ.get('PORT', 5000))
