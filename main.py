@@ -1,4 +1,3 @@
-import sqlite3
 from flask import Flask, request, g, redirect, url_for, \
         abort, render_template, jsonify, json
 from flask_sqlalchemy import SQLAlchemy
