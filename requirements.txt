@@ -1,2 +1,2 @@
 Flask>= 0.8
-sqlite3
+pysqlite==1.0.1
