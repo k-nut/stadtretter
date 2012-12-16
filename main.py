@@ -10,8 +10,15 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('stadtretter.cfg', silent=False)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-db = SQLAlchemy(app)
+if not os.environ.get("DATABASE_URL"):
+    print "Creating db-instance"
+    os.environ.setdefault("DATABASE_URL", "sqlite:////tmp/sr.db")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    db = SQLAlchemy(app)
+    db.create_all()
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    db = SQLAlchemy(app)
 
 class Action(db.Model):
     id = db.Column(db.Integer, primary_key=True)

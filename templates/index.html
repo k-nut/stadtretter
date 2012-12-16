@@ -21,20 +21,21 @@
       doit();
       map.on('moveend', function(){doit()});
       $("#about_link").click(function(){$("#about").toggle();});
+      setTimeout(function(){$(".leaflet-marker-icon").first().click()}, 1000);
     });
     </script>
   </head>
   <body>
     <div class="navbar">
       <div class="navbar-inner">
-        <a class="brand"> Stadtretter </a>
+        <a class="brand" href="/"> Stadtretter </a>
         <ul class="nav">
-          <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i> Hinzufügen </a>
+          <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i><span class="hidden-phone"> Hinzufügen</span> </a>
           <li><a href="#login" id="login"><i class="icon-user"></i>Anmelden</a>
           <li><a id = "about_link" href="#"><i class="icon-question-sign"></i>Über</a>
-        </ul>
-        <form action="javascript:zoom($('#search').val().replace(' ', '&'))">
-          <input id="search" type="text" style="height: 100%; float: right; margin-top: 5px;" value="Ort suchen..." onfocus="if ($(this).val() =='Ort suchen...'){$(this).val('')}" onblur="if ($(this).val() == '') { $(this).val('Ort suchen...')}"/>
+        </ul> 
+          <form class="navbar-search pull-right" action="javascript:zoom($('#search').val().replace(' ', '&'))">
+            <input class="search-query" id="search" type="text" placeholder="Ort suchen..." />
           <span style="display: none"> <input type="submit" /></span>
         </form>
       </div>
