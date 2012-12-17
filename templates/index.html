@@ -3,92 +3,123 @@
   <head>
     <meta charset=utf8 />
     <title> Stadtretter | {% block title %} start! {% endblock %}</title>
+    <meta name="viewport" content="initial-scale=2">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css' ) }}" /> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.css' ) }}" /> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.css' ) }}" />
     <script src="{{ url_for('static', filename='components/jquery/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
     <!--[if lte IE 8]>
-      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.ie.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.ie.css" />
     <![endif]-->
     <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
     <script src="{{url_for('static', filename='scripts/leaflet_embed.js') }}"></script>
     <script>
-    $(document).ready(function(){
-      initmap();
-      setTimeout(function(){map.panTo(get_user_position())}, 100);
-      setTimeout(function(){map.panTo(get_user_position())}, 200);
-      $(".popup").css("display", "none");
-      doit();
-      map.on('moveend', function(){doit()});
-      $("#about_link").click(function(){$("#about").toggle();});
-      setTimeout(function(){$(".leaflet-marker-icon").first().click()}, 1000);
-    });
+      $(document).ready(function(){
+        initmap();
+        setTimeout(function(){map.panTo(get_user_position())}, 100);
+        setTimeout(function(){map.panTo(get_user_position())}, 200);
+        $(".popup").css("display", "none");
+        doit();
+        map.on('moveend', function(){doit()});
+        setTimeout(function(){$(".leaflet-marker-icon").first().click()}, 1000);
+      });
     </script>
+
+    <style>
+      .navbar {
+        margin-bottom: 0;
+      }
+
+      html, body{
+        height: 100%;
+      }
+      .fill{
+        height: 100%;
+        min-height: 100%;
+        width: 100%;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        display: block;
+      }
+    </style>
   </head>
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
-        <a class="brand" href="/"> Stadtretter </a>
-        <ul class="nav">
-          <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i><span class="hidden-phone"> Hinzufügen</span> </a>
-          <li><a href="#login" id="login"><i class="icon-user"></i>Anmelden</a>
-          <li><a id = "about_link" href="#"><i class="icon-question-sign"></i>Über</a>
-        </ul> 
-          <form class="navbar-search pull-right" action="javascript:zoom($('#search').val().replace(' ', '&'))">
-            <input class="search-query" id="search" type="text" placeholder="Ort suchen..." />
-          <span style="display: none"> <input type="submit" /></span>
-        </form>
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/"> Stadtretter </a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i><span class="hidden-phone"> Hinzufügen</span> </a>
+              <li><a data-toggle="modal" href="#about"><i class="icon-question-sign"></i>Über</a>
+            </ul>
+            <form class="navbar-search pull-right" action="javascript:zoom($('#search').val().replace(' ', '&'))">
+              <input class="search-query" id="search" type="text" placeholder="Ort suchen..." />
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="map" style="position: absolute; top:40px; bottom:0; left:0; right:0;"></div>
-    <div class="popup" style="display: none; position:absolute; right: 50px; background-color: white; border-radius: 10px; padding: 25px; box-shadow: 5px 5px 10px black">
-      <i class="icon-remove-sign" style="float: right; margin-bottom: 10px; cursor: pointer;" onclick="closepopup()"></i>
-      <form action="/add" method="post" enctype="multipart/form-data">
-        <table>
-          <tr>
-            <td> Name </td>
-            <td> <input type="text" name="name" /></td>
-          </tr>
-          <tr>
-            <td> Aktion </td>
-            <td> <input type="text" name="title" /></td>
-          </tr>
-          <tr>
-            <td> Bild </td>
-            <td> <input type="file" name="picture" /></td>
-          </tr>
-        </table>
-        <div style="display: none;">
-          <input id="lat-input" type="hidden" name="lat" />
-          <input id="lng-input" type="hidden" name="lon" />
+    <div class="container fill">
+      <div id="map" style="margin-top: 40px;"></div>
+
+      <div id="about" class="modal hide fade">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3>Stadtretter</h3>
         </div>
-        <input type="submit" />
-      </form>
-    </div>
-    <div id="about" style="display: none; position:absolute; right: 50px; left: 50px; background-color: white; border-radius: 10px; padding: 25px; box-shadow: 5px 5px 10px black">
-      <i class="icon-remove-sign" style="float: right; margin-bottom: 10px; cursor: pointer;" onclick="$('#about').toggle()"></i>
-      <h2> Stadtretter </h2>
-      <h3> Warum diese Seite? </h3>
-      <p> Jeden Tag passieren tausend kleine gute Taten. Niemand sieht sie, aber sie sind trotzdem da. Stadtretter soll allen die Möglichkeit
+        <div class="modal-body">
+          <h3> Warum diese Seite? </h3>
+          <p> Jeden Tag passieren tausend kleine gute Taten. Niemand sieht sie, aber sie sind trotzdem da. Stadtretter soll allen die Möglichkeit
           geben, diese guten Taten zu teilen. Hast du etwas Gutes getan oder hat dir jemand etwas Gutes getan? Trag's ein. Zusammen können
           wir zeigen, dass in Deutschland viel mehr gute Taten passieren, als wir es mitbekommen können. Lasst uns zusammen eine <i> map
             of pure awesome </i> bauen.
-    </div>
-    
-    <div id="notfound" style="display:none; position:absolute; right:50px; top:50px; background-color: white; border-radius: 10px; padding:15px; box-shadow: 5px 5px 10px black; width:150px;">
-      <p> Ort nicht gefunden... </p>
+        </div>
+      </div>
+
+      <div class="popup" style="display:none; position:absolute; right:50px; top:50px; background-color: white; border-radius: 10px; padding:15px; box-shadow: 5px 5px 10px black; width:350px; z-index: 2">
+        <i class="icon-remove-sign" style="float: right; margin-bottom: 10px; cursor: pointer;" onclick="closepopup()"></i>
+        <form action="/add" method="post" enctype="multipart/form-data">
+          <fieldset>
+            <legend>Eine neue gute Tat!</legend>
+              <input name="name" type="text" placeholder="Name">
+              <textarea name="title" rows="3" placeholder="Aktion"></textarea>
+            <label>Bild</label>
+              <input name="picture" type="file">
+            <button type="submit" class="btn">Abschicken!</button>
+            
+            <div style="display: none;">
+              <input id="lat-input" type="hidden" name="lat" />
+              <input id="lng-input" type="hidden" name="lon" />
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div id="notfound" style="display:none; position:absolute; right:50px; top:50px; background-color: white; border-radius: 10px; padding:15px; box-shadow: 5px 5px 10px black; width:150px; z-index: 2">
+        <p> Ort nicht gefunden... </p>
+      </div>
     </div>
     <!-- Piwik --> 
-      <script type="text/javascript">
+    <script type="text/javascript">
       var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.k-nut.eu/" : "http://piwik.k-nut.eu/");
       document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
       </script><script type="text/javascript">
       try {
-      var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 3);
-      piwikTracker.trackPageView();
-      piwikTracker.enableLinkTracking();
+        var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 3);
+        piwikTracker.trackPageView();
+        piwikTracker.enableLinkTracking();
       } catch( err ) {}
-      </script><noscript><p><img src="http://piwik.k-nut.eu/piwik.php?idsite=3" style="border:0" alt="" /></p></noscript>
-    <!-- End Piwik Tracking Code -->
+</script><noscript><p><img src="http://piwik.k-nut.eu/piwik.php?idsite=3" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
   </body>
 </html>
