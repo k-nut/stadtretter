@@ -3,7 +3,7 @@
   <head>
     <meta charset=utf8 />
     <title> Stadtretter | {% block title %} start! {% endblock %}</title>
-    <meta name="viewport" content="initial-scale=2">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css' ) }}" /> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.css' ) }}" />
     <script src="{{ url_for('static', filename='components/jquery/jquery.js') }}"></script>
@@ -45,10 +45,13 @@
         min-height: 100%;
         display: block;
       }
+      .leaflet-top{
+        top: 40px;
+      }
     </style>
   </head>
   <body>
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top pull-right">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -69,8 +72,8 @@
         </div>
       </div>
     </div>
-    <div class="container fill">
-      <div id="map" style="margin-top: 40px;"></div>
+    <div class="container fill pull-right">
+      <div id="map" ></div>
 
       <div id="about" class="modal hide fade">
         <div class="modal-header">
