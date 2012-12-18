@@ -48,10 +48,14 @@
       .leaflet-top{
         top: 40px;
       }
+      body{
+        padding-right: 0px !important;
+        padding-left: 0 !important;
+      }
     </style>
   </head>
   <body>
-    <div class="navbar navbar-fixed-top pull-right">
+    <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -62,11 +66,11 @@
           <a class="brand" href="/"> Stadtretter </a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i><span class="hidden-phone"> Hinzufügen</span> </a>
+              <li><a href="javascript:add_new_marker()"><i class="icon-plus"></i>Hinzufügen</a>
               <li><a data-toggle="modal" href="#about"><i class="icon-question-sign"></i>Über</a>
             </ul>
             <form class="navbar-search pull-right" action="javascript:zoom($('#search').val().replace(' ', '&'))">
-              <input class="search-query" id="search" type="text" placeholder="Ort suchen..." />
+              <input class="search-query" id="search" type="search" placeholder="Ort suchen..." />
             </form>
           </div>
         </div>
