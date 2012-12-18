@@ -10,8 +10,12 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('stadtretter.cfg', silent=False)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-db = SQLAlchemy(app)
+if os.environ.get("DATABASE_URL"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    db = SQLAlchemy(app)
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+    db = SQLAlchemy(app)
 
 class Action(db.Model):
     id = db.Column(db.Integer, primary_key=True)
