@@ -46,7 +46,6 @@ function add_new_marker(){
                         $("#lat-input").val(this.getLatLng().lat);
                         $("#lng-input").val(this.getLatLng().lng);
                         clearTimeout(t);
-                        console.log(t);
                         t = setTimeout(function(){$("#action-dialogue").modal();}, 2000);
                 });
                 this_marker.on('dragstart', function(){
