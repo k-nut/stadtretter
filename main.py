@@ -10,6 +10,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('stadtretter.cfg', silent=False)
+app.config["UPLOAD_FOLDER"] = "./static/user-images/"
 if os.environ.get("DATABASE_URL"):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     db = SQLAlchemy(app)
