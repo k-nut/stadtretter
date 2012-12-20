@@ -9,7 +9,6 @@ import os
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, instance_relative_config=True)
-app.config.from_pyfile('stadtretter.cfg', silent=False)
 app.config["UPLOAD_FOLDER"] = "./static/user-images/"
 if os.environ.get("DATABASE_URL"):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -98,6 +97,6 @@ def findaddress(query):
         return jsonify()
 
 if __name__ == "__main__":
-    app.debug = True
+    app.debug = False
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
